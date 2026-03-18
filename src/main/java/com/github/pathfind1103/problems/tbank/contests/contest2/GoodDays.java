@@ -13,14 +13,14 @@ public class GoodDays {
         int n = Integer.parseInt(br.readLine());
 
         int[] array = new int[n];
-        int[] prefixSums = new int[n];
+        long[] prefixSums = new long[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         long currentTotalSum = 0;
         for (int i = 0; i < n; i++) {
             array[i] = Integer.parseInt(st.nextToken());
             currentTotalSum += array[i];
-            prefixSums[i] = (int) currentTotalSum;
+            prefixSums[i] = currentTotalSum;
         }
 
         int[] mins = new int[n];
@@ -29,30 +29,18 @@ public class GoodDays {
         for (int i = 0; i < n; i++) {
             int value = array[i];
 
-            if (stack.isEmpty()) {
-                stack.push(i);
-                mins[i] = i;
-            } else {
-                if (value < array[stack.peek()]) {
-                    if (stack.size() == 1) {
-                        stack.pop();
-                        mins[i] = i;
-                        stack.push(i);
-                    } else {
-                        while (value < array[stack.peek()]) {
-                            stack.pop();
-                        }
-
-                        mins[i] = stack.peek();
-                        stack.push(i);
-                    }
-                } else {
-                    mins[i] = stack.peek();
-                    stack.push(i);
-                }
+            while (!stack.isEmpty() && array[stack.peek()] >= value) {
+                stack.pop();
             }
 
+            if (stack.isEmpty()) {
+                mins[i] = -1;
+            } else {
+                mins[i] = stack.peek();
+            }
+            stack.push(i);
         }
+
 
         Stack<Integer> maxR = new Stack<>();
         int[] maxRight = new int[n];
@@ -60,40 +48,18 @@ public class GoodDays {
         for (int i = n - 1; i >= 0; i--) {
             int value = array[i];
 
-            if (maxR.isEmpty()) {
-                maxR.push(i);
-                maxRight[i] = i;
-            } else {
-                if (value < array[maxR.peek()]) {
-                    if (maxR.size() == 1) {
-                        maxR.pop();
-                        maxRight[i] = i;
-                        maxR.push(i);
-                    } else {
-                        while (value < array[maxR.peek()]) {
-                            if (maxR.size() == 1) {
-                                maxR.pop();
-                                maxRight[i] = i;
-                                maxR.push(i);
-                            } else {
-                                maxR.pop();
-                            }
-                        }
-
-                        maxRight[i] = maxR.peek();
-                        maxR.push(i);
-                    }
-                } else {
-                    maxRight[i] = maxR.peek();
-                    maxR.push(i);
-                }
+            while (!maxR.isEmpty() && array[maxR.peek()] >= value) {
+                maxR.pop();
             }
+
+            if (maxR.isEmpty()) {
+                maxRight[i] = n;
+            } else {
+                maxRight[i] = maxR.peek();
+            }
+            maxR.push(i);
         }
 
-        System.out.println(Arrays.toString(array));
-        System.out.println(Arrays.toString(prefixSums));
-        System.out.println(Arrays.toString(mins));
-        System.out.println(Arrays.toString(maxRight));
         long maxRes = Integer.MIN_VALUE;
 
         for (int i = 0; i < n; i++) {

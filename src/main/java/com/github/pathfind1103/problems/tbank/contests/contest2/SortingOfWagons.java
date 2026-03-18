@@ -23,14 +23,9 @@ public class SortingOfWagons {
 
         for (int i = 0; i < n; i++) {
             wayOne.addFirst(Integer.parseInt(st.nextToken()));
-
         }
 
-        boolean flag = false;
-        while (current != n) {
-            if (flag) {
-                break;
-            }
+        while (current <= n) {
 
             if (pendingOut > 0) {
                 sb.append("2 ").append(pendingOut).append("\n");
@@ -38,19 +33,22 @@ public class SortingOfWagons {
             }
 
             if (deadEnd.isEmpty()) {
+                if (wayOne.isEmpty()) {
+                    System.out.println(0);
+                    return;
+                }
                 deadEnd.push(wayOne.removeLast());
-                pendingIn += 1;
+                pendingIn++;
             }
 
+            // Завозим пока не появится current
             while (deadEnd.peek() != current) {
                 if (!wayOne.isEmpty()) {
                     deadEnd.push(wayOne.removeLast());
-                    pendingIn += 1;
+                    pendingIn++;
                 } else {
-                    System.out.println(-1);
-                    flag = true;
-                    break;
-
+                    System.out.println(0);
+                    return;
                 }
             }
 
@@ -61,30 +59,26 @@ public class SortingOfWagons {
 
             while (!deadEnd.isEmpty() && deadEnd.peek() == current) {
                 wayTwo.push(deadEnd.pop());
-
-                if (current != n) {
-                    current += 1;
-                    pendingOut += 1;
-                }
-
-//                System.out.println(current);
-//                System.out.println(wayTwo.toString());
-
-                if (pendingOut > 0) {
-                    sb.append("2 ").append(pendingOut).append("\n");
-                    pendingOut = 0;
-                }
-            }
-
-            if (pendingIn > 0) {
-                sb.append("1 ").append(pendingIn).append("\n");
+                pendingOut++;
+                current++;
             }
 
             if (pendingOut > 0) {
                 sb.append("2 ").append(pendingOut).append("\n");
+                pendingOut = 0;
             }
         }
 
-        System.out.print(sb.toString());
+        String output = sb.toString().trim();
+
+        if (output.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+
+        int lines = output.split("\n").length;
+
+        System.out.println(lines);
+        System.out.print(output);
     }
 }
