@@ -8,9 +8,7 @@ public class TOIString {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String nLine = br.readLine();
-        if (nLine == null) return;
-        int n = Integer.parseInt(nLine.trim());
+        int n = Integer.parseInt(br.readLine().trim());
 
         String s = br.readLine();
         if (s == null) s = "";

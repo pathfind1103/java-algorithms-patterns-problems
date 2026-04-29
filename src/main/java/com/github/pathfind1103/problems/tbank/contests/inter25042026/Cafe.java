@@ -1,16 +1,19 @@
 package com.github.pathfind1103.problems.tbank.contests.inter25042026;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Cafe {
     static final long MOD = 1_000_000_007;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        if (!sc.hasNextLong()) return;
-        long n = sc.nextLong();
-        long m = sc.nextLong();
+        long n = Long.parseLong(st.nextToken());
+        long m = Long.parseLong(st.nextToken());
 
         if (m < 2) {
             System.out.println(0);

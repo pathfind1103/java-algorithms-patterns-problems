@@ -9,9 +9,7 @@ public class Stock {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String line = br.readLine();
-        if (line == null) return;
-        int n = Integer.parseInt(line.trim());
+        int n = Integer.parseInt(br.readLine().trim());
 
         long[] values = new long[n + 1];
         StringTokenizer st = new StringTokenizer(br.readLine());
